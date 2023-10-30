@@ -6,7 +6,18 @@ var currentTemp = document.getElementById("temp");
 var currentWind = document.getElementById("wind");
 var currentHumid = document.getElementById("humid");
 
+
+function clearElements() {
+    while (fiveDayContainer.lastChild) {
+        fiveDayContainer.removeChild(fiveDayContainer.lastChild);
+    }
+}
+
 function getWeather() {
+    
+    //clears previous city's forecast if present
+    clearElements();
+
     //getting the search box's value
     var citySearched = document.getElementById("citysearch").value;
 
@@ -45,9 +56,22 @@ function getWeather() {
                             currentTemp.textContent = "Temperature: " + currentWeather.main.temp + "°F";
                             currentWind.textContent = "Wind: " + currentWeather.wind.gust + " mph";
                             currentHumid.textContent = "Humidity: " + currentWeather.main.humidity;
-                            })
+                            
+                            //creates header for five day forecast
+                            var forecastHeader = document.createElement("h2");
+                            forecastHeader.textContent = "Five Day Forecast"
+                            fiveDayContainer.append(forecastHeader);
 
-                        
+                            //loops through each day and creates an element listing forecast for each
+                            for (i = 0; i < forecast5Days.length; i++) {
+                                var div = document.createElement("div");
+                                div.classList.add("forecast");
+                                div.classList.add("col-2");
+                                div.classList.add("m-1");
+                                div.innerHTML = forecast5Days[i].dt_txt.slice(0, 10) + "<br> icon placeholder <br> Temp: " + forecast5Days[i].main.temp + "°F <br> Wind: " + forecast5Days[i].wind.gust + " mph <br> Humidity: " + forecast5Days[i].main.humidity;
+                                fiveDayContainer.append(div);
+                            }
+                            })
                         }
                     })
                 })
