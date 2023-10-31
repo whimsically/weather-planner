@@ -64,10 +64,13 @@ function getStorage () {
         var cityLat = split[0];
         var cityLon = split[1];
 
+        //adds city's name to button
         searchItem.textContent = cityName;
+        //button bootstrap classes
         searchItem.classList.add("btn");
         searchItem.classList.add("btn-outline-primary");
         searchHistory.append(searchItem);
+        //linebreak so they don't all appear on one line
         var linebreak = document.createElement("br");
         searchHistory.append(linebreak);
 
@@ -148,6 +151,15 @@ function getLatLon () {
     weatherFromLatLon(city, cityLat, cityLon);
 }
 
+function clearStorage() {
+    //clears localStorage and removes the elements
+    localStorage.clear();
+    while (searchHistory.lastChild) {
+        searchHistory.removeChild(searchHistory.lastChild);
+    }
+}
+
 getStorage();
 
 document.getElementById("search-btn").addEventListener("click", getSearchValue);
+document.getElementById("clear-btn").addEventListener("click", clearStorage);
